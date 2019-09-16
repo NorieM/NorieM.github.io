@@ -1,4 +1,8 @@
+// month labels
+const months =[...Array(12).keys()].map(mth => new Date(2019,mth, 1).toLocaleString('en-UK', {month:'long'})) ;
 
+
+// generate a random RGB colour
 function getRandomColor() {
     const letters = '0123456789ABCDEF'.split('');
     let color = '#';
@@ -8,7 +12,7 @@ function getRandomColor() {
     return color;
 }
 
-let rows;
+let rows; // array for data from CSV file
 
 function Upload() {
 	
@@ -27,18 +31,25 @@ function Upload() {
 				
 			regions.shift();
 				
-			let areas = {};
-			
-			for(idx=0; idx<regions.length ; idx++)
-			{
-				areas[regions[idx]] = Array.from(new Set(rows.filter(row=> row[0]===regions[idx]).map(row=>row[1])));
-			}
-											
-			console.log(regions);				
+			let regionSelect = document.getElementById('regionSelect');
+
+			regionSelect.options.length = 0;
 				
-            }
+			for(let idx=0; idx < regions.length; idx++){
+				let el = document.createElement('option');
+				el.textContent = regions[idx];
+				el.value = regions[idx];
+				regionSelect.appendChild(el);			
+				};																	
 			
+			changeRegion(regions[0]);
+			
+			document.getElementById('regionTitle').innerText = regions[0];
+			
+            }
+							
             reader.readAsText(fileUpload.files[0]);
+			
         } else {
             alert("This browser does not support HTML5.");
         }
@@ -47,21 +58,6 @@ function Upload() {
     }
 }
 		
-	
-// month labels
-const months =[...Array(12).keys()].map(mth => new Date(2019,mth, 1).toLocaleString('en-UK', {month:'long'})) ;
-
-const areas = ['London', 'Milton Keynes', 'Tottenham', 'Paddington'];
-
-let areaSelect = document.getElementById('areaSelect');
-
-for(let idx=0; idx < areas.length; idx++){
-	let el = document.createElement('option');
-	el.textContent = areas[idx];
-	el.value = areas[idx];
-	areaSelect.appendChild(el);
-};
-
 const allData = [['London','Site1',5819,5915,5848,5899,5944,5819,5898,5825,5659,5871,5857,5719],
 	             ['London','Site2',5882,5932,5871,5944,5844,5806,5826,5771,6028,5894,5770,6004],
 	             ['London','Site3',5864,5820,5812,5599,5945,5790,5716,5933,5936,5979,5973,5617],
@@ -96,18 +92,34 @@ const allData = [['London','Site1',5819,5915,5848,5899,5944,5819,5898,5825,5659,
 	             ['Paddington','Site32',5952,5964,5921,5958,5964,5938,6034,5935,5793,5992,6047,5818]  
 ];
 
-changeArea(areas[0]);
 
 function changeArea(area){
 	
-	const areaData = allData.filter(site=>site[0]===area);
+	const areaData = rows.filter(site=>site[1]===area);
+	
+	const sites = Array.from(new Set(areaData.map(site =>site[2])));
+	
+	let allData = [];
+	
+	for (idx=0;idx<sites.length;idx++)
+		{
+			let data = rows.filter(site=>site[1]===area && site[2] === sites[idx]);
 			
-	const areaList = areaData.map(site => {
+			let siteData = [sites[idx]];			
+			
+			for(month=0;month<data.length; month++){			
+				siteData.push(data[month][4]);
+			}
+			allData.push(siteData);
+			
+		}	
+		
+	const areaList = allData.map(site => {
 		return {
-			data:site.slice(2),
-			label:site[1],
+			data:site.slice(1),
+			label:site[0],
 			backgroundColor:getRandomColor(),
-			fille: true}		
+			fill: true}		
 	});
 	
 	document.getElementById('chart').innerHTML = '';
@@ -135,3 +147,23 @@ function changeArea(area){
 	  }
 	});
 }
+
+function changeRegion(region){
+					
+	const areas = Array.from(new Set(rows.filter(row=> row[0]===region).map(row=>row[1])));
+	
+	let areaSelect = document.getElementById('areaSelect');
+
+	areaSelect.options.length = 0;
+		
+	for(let idx=0; idx < areas.length; idx++)
+	{
+		let el = document.createElement('option');
+		el.textContent = areas[idx];
+		el.value = areas[idx];
+		areaSelect.appendChild(el);
+	}
+	
+	changeArea(areas[0]);
+}
+
