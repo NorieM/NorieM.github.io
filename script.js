@@ -28,7 +28,7 @@ function loadDoc() {
 
 function Upload() {
 	
-    rows = loadDoc.split('\n').map(row => row.split(',');
+    rows = loadDoc.split('\n').map(row => row.split(','));
 				   
     let fileUpload = document.getElementById("fileUpload");
 	
