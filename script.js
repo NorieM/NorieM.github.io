@@ -14,8 +14,22 @@ function getRandomColor() {
 
 let rows; // array for data from CSV file
 
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", data.csv", true);
+  xhttp.send();
+}
+
 function Upload() {
 	
+    rows = loadDoc.split('\n').map(row => row.split(',');
+				   
     let fileUpload = document.getElementById("fileUpload");
 	
     let regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
