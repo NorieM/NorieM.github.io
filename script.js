@@ -21,7 +21,7 @@ function loadDoc() {
       return this.responseText;
     }
   };
-  xhttp.open("GET", "https://noriem.github.io/docs/data.csv", true);
+  xhttp.open("GET", "./docs/data.csv", true);
   xhttp.send();
 }
 
