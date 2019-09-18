@@ -14,21 +14,7 @@ function getRandomColor() {
 
 let rows; // array for data from CSV file
 
-function reqListener () {
-  return this.responseText;
-}
-function loadDoc() {
-var oReq = new XMLHttpRequest();
-oReq.addEventListener("load", reqListener);
-oReq.open("GET", "test.txt");
-oReq.send();
-}
-
 function Upload() {
-	
-    const dataFromAjax = loadDoc();
-	
-    rows = dataFromAjax.split('\n').map(row => row.split(','));
 				   
     let fileUpload = document.getElementById("fileUpload");
 	
