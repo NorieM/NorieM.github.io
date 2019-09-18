@@ -21,7 +21,7 @@ function loadDoc() {
       return this.responseText;
     }
   };
-  xhttp.open("GET", "./_docs/data.csv", true);
+  xhttp.open("GET", "./test.txt", true);
   xhttp.send();
 }
 
