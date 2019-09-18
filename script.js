@@ -14,15 +14,14 @@ function getRandomColor() {
 
 let rows; // array for data from CSV file
 
+function reqListener () {
+  return this.responseText;
+}
 function loadDoc() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      return this.responseText;
-    }
-  };
-  xhttp.open("GET", "test.txt", true);
-  xhttp.send();
+var oReq = new XMLHttpRequest();
+oReq.addEventListener("load", reqListener);
+oReq.open("GET", ""test.txt"");
+oReq.send();
 }
 
 function Upload() {
