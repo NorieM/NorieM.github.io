@@ -21,7 +21,7 @@ function loadDoc() {
       return this.responseText;
     }
   };
-  xhttp.open("GET", "./test.txt", true);
+  xhttp.open("GET", "test.txt", true);
   xhttp.send();
 }
 
