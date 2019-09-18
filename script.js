@@ -20,7 +20,7 @@ function reqListener () {
 function loadDoc() {
 var oReq = new XMLHttpRequest();
 oReq.addEventListener("load", reqListener);
-oReq.open("GET", ""test.txt"");
+oReq.open("GET", "test.txt");
 oReq.send();
 }
 
