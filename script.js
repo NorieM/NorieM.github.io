@@ -32,7 +32,7 @@ function Upload() {
 								
 				metricSelect.options.length =0;
 				
-				for(let idx=5; idx < rows[0].length; idx++){
+				for(let idx=5; idx < rows[0].split(',').length; idx++){
 					let el = document.createElement('option');
 					el.textContent = rows[idx];
 					el.value = rows[idx];
