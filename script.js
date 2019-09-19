@@ -27,15 +27,17 @@ function Upload() {
             reader.onload = function (e) {
 				
 				rows = e.target.result.split("\n").map(row => row.split(','));
-
+				
+		    		let header = rows[0];
+		    
 				let metricSelect = document.getElementById('metricSelect');
 								
 				metricSelect.options.length =0;
 				
-				for(let idx=5; idx < rows[0].split(',').length; idx++){
+				for(let idx=5; idx < header.length; idx++){
 					let el = document.createElement('option');
-					el.textContent = rows[idx];
-					el.value = rows[idx];
+					el.textContent = header[idx];
+					el.value = header[idx];
 					metricSelect.appendChild(el);			
 				};	
 				
