@@ -1,7 +1,6 @@
 // month labels
 const months =[...Array(12).keys()].map(mth => new Date(2019,mth, 1).toLocaleString('en-UK', {month:'long'})) ;
 
-
 // generate a random RGB colour
 function getRandomColor() {
     const letters = '0123456789ABCDEF'.split('');
@@ -34,7 +33,7 @@ function Upload() {
 								
 				metricSelect.options.length =0;
 				
-				for(let idx=5; idx < header.length; idx++){
+				for(let idx=4; idx < header.length; idx++){
 					let el = document.createElement('option');
 					el.textContent = header[idx];
 					el.value = header[idx];
@@ -87,7 +86,7 @@ function changeArea(area){
 			let siteData = [sites[idx]];			
 			
 			for(month=0;month<data.length; month++){			
-				siteData.push(data[month][4]);
+				siteData.push(data[month][document.getElementById('metricSelect').selectedIndex+4]);
 			}
 			allData.push(siteData);
 			
