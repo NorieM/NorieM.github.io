@@ -1,36 +1,41 @@
-
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>CRT Regional Report</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
-  </head>
-  <body>
-	
+</head>
+
+<body>
+
     <div class="wrapper">
-      <h1>Canal and River Trust</h1>
-	  <h1 id="regionTitle">London and South East</h1>
-      <h2>Monthly breakdown - Weekday Average</h2>
-  
- 	  <form>
-	  	<select id="regionSelect" onchange="changeRegion(this.value)">
-		</select>
-		<br>
-	    <select id="areaSelect" onchange="changeArea(this.value)">
-		</select>				
-      </form>
-	  	  
-	  <div id="chart">
-	      <canvas id="myChart" width="1200" height="600"></canvas>
-	  </div>
+        <h1>Canal and River Trust</h1>
+        <h1 id="regionTitle">London and South East</h1>
+        <h2>Monthly breakdown - Weekday Average</h2>
+
+        <form>
+            <select id="regionSelect" onchange="changeRegion(this.value)">
+            </select>
+            <br>
+            <select id="areaSelect" onchange="changeArea(this.value)">
+            </select>
+			<br>
+			<select id="metric" onchange="changeMetric(this.value)">
+			</select
+        </form>
+
+        <div id="chart">
+            <canvas id="myChart" width="1200" height="600"></canvas>
+        </div>
     </div>
 
-	<input type="file" id="fileUpload" />
-	<input type="button" id="upload" value="Upload" onclick="Upload()" />
-	<hr />
-	
+    <input type="file" id="fileUpload" />
+    <input type="button" id="upload" value="Upload" onclick="Upload()" />
+    <hr />
+
     <script src="script.js"></script>
 
-  </body>
+</body>
+
 </html>
