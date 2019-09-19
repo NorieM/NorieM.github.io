@@ -73,6 +73,9 @@ function Upload() {
 		
 function changeArea(area){
 	
+	if (!area){
+		area = document.getElementById('areaSelect').value;
+	}
 	const areaData = rows.filter(site=>site[1]===area);
 	
 	const sites = Array.from(new Set(areaData.map(site =>site[2])));
@@ -143,5 +146,9 @@ function changeRegion(region){
 	}
 	
 	changeArea(areas[0]);
+}
+
+function changeMetric(){
+	changeArea();
 }
 
