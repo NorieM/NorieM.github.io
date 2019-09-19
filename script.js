@@ -148,7 +148,8 @@ function changeRegion(region){
 	changeArea(areas[0]);
 }
 
-function changeMetric(){
+function changeMetric(metric){
+	document.getElementById('metricTitle').innerText =`Monthly Breakdown - ${metric} Average`;
 	changeArea();
 }
 
