@@ -24,27 +24,39 @@ function Upload() {
         if (typeof (FileReader) != "undefined") {
             let reader = new FileReader();
 			
-            reader.onload = function (e) {            
-            rows = e.target.result.split("\n").map(row => row.split(','));
+            reader.onload = function (e) {
 				
-			let regions = Array.from(new Set(rows.map(row =>row[0])));
-				
-			regions.shift();
-				
-			let regionSelect = document.getElementById('regionSelect');
+				rows = e.target.result.split("\n").map(row => row.split(','));
 
-			regionSelect.options.length = 0;
+				let metricSelect = document.getElementById('metricSelect');
+								
+				metricSelect.options.length =0;
 				
-			for(let idx=0; idx < regions.length; idx++){
-				let el = document.createElement('option');
-				el.textContent = regions[idx];
-				el.value = regions[idx];
-				regionSelect.appendChild(el);			
-				};																	
-			
-			changeRegion(regions[0]);
-			
-			document.getElementById('regionTitle').innerText = regions[0];
+				for(let idx=5; idx < rows[0].length; idx++){
+					let el = document.createElement('option');
+					el.textContent = rows[idx];
+					el.value = rows[idx];
+					metricSelect.appendChild(el);			
+				};	
+				
+				let regions = Array.from(new Set(rows.map(row =>row[0])));
+				
+				regions.shift();
+
+				let regionSelect = document.getElementById('regionSelect');
+
+				regionSelect.options.length = 0;
+
+				for(let idx=0; idx < regions.length; idx++){
+					let el = document.createElement('option');
+					el.textContent = regions[idx];
+					el.value = regions[idx];
+					regionSelect.appendChild(el);			
+					};																	
+
+				changeRegion(regions[0]);
+
+				document.getElementById('regionTitle').innerText = regions[0];
 			
             }
 							
