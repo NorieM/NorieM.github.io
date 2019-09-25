@@ -1,6 +1,46 @@
 // month labels
 const months =[...Array(12).keys()].map(mth => new Date(2019,mth, 1).toLocaleString('en-UK', {month:'long'})) ;
 
+function createTable(tableData) {
+  var table = document.createElement('table');
+  table.setAttribute('class', 'blueTable');
+	
+  var tableHeader = document.createElement('thead');
+	
+  var tableHeaderRow = document.createElement('tr');
+  
+  months.unshift('Site');
+  	
+  months.forEach(month=>{
+  	var cell = document.createElement('th')
+	cell.appendChild(document.createTextNode(month));	  
+	tableHeaderRow.appendChild(cell);  
+	  
+  });
+	
+  months.shift();
+	
+  tableHeader.append(tableHeaderRow);
+	
+  var tableBody = document.createElement('tbody');
+
+  tableData.forEach(function(rowData) {
+    var row = document.createElement('tr');
+
+    rowData.forEach(function(cellData) {
+      var cell = document.createElement('td');
+      cell.appendChild(document.createTextNode(cellData));
+      row.appendChild(cell);
+    });
+
+    tableBody.appendChild(row);
+  });
+	
+  table.appendChild(tableHeader);
+  table.appendChild(tableBody);
+  document.body.appendChild(table);
+}
+
 // generate a random RGB colour
 function getRandomColor() {
     const letters = '0123456789ABCDEF'.split('');
@@ -14,7 +54,7 @@ function getRandomColor() {
 let rows; // array for data from CSV file
 
 function Upload() {
-				   
+	
     let fileUpload = document.getElementById("fileUpload");
 	
     let regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
@@ -23,41 +63,27 @@ function Upload() {
         if (typeof (FileReader) != "undefined") {
             let reader = new FileReader();
 			
-            reader.onload = function (e) {
+            reader.onload = function (e) {            
+            rows = e.target.result.split("\n").map(row => row.split(','));
 				
-				rows = e.target.result.split("\n").map(row => row.split(','));
+			let regions = Array.from(new Set(rows.map(row =>row[0])));
 				
-		    		let header = rows[0];
-		    
-				let metricSelect = document.getElementById('metricSelect');
-								
-				metricSelect.options.length =0;
+			regions.shift();
 				
-				for(let idx=4; idx < header.length; idx++){
-					let el = document.createElement('option');
-					el.textContent = header[idx];
-					el.value = header[idx];
-					metricSelect.appendChild(el);			
-				};	
+			let regionSelect = document.getElementById('regionSelect');
+
+			regionSelect.options.length = 0;
 				
-				let regions = Array.from(new Set(rows.map(row =>row[0])));
-				
-				regions.shift();
-
-				let regionSelect = document.getElementById('regionSelect');
-
-				regionSelect.options.length = 0;
-
-				for(let idx=0; idx < regions.length; idx++){
-					let el = document.createElement('option');
-					el.textContent = regions[idx];
-					el.value = regions[idx];
-					regionSelect.appendChild(el);			
-					};																	
-
-				changeRegion(regions[0]);
-
-				document.getElementById('regionTitle').innerText = regions[0];
+			for(let idx=0; idx < regions.length; idx++){
+				let el = document.createElement('option');
+				el.textContent = regions[idx];
+				el.value = regions[idx];
+				regionSelect.appendChild(el);			
+				};																	
+			
+			changeRegion(regions[0]);
+			
+			document.getElementById('regionTitle').innerText = regions[0];
 			
             }
 							
@@ -71,11 +97,9 @@ function Upload() {
     }
 }
 		
+
 function changeArea(area){
 	
-	if (!area){
-		area = document.getElementById('areaSelect').value;
-	}
 	const areaData = rows.filter(site=>site[1]===area);
 	
 	const sites = Array.from(new Set(areaData.map(site =>site[2])));
@@ -89,11 +113,13 @@ function changeArea(area){
 			let siteData = [sites[idx]];			
 			
 			for(month=0;month<data.length; month++){			
-				siteData.push(data[month][document.getElementById('metricSelect').selectedIndex+4]);
+				siteData.push(data[month][4]);
 			}
 			allData.push(siteData);
 			
 		}	
+		
+	const htmlTable = createTable(allData);
 		
 	const areaList = allData.map(site => {
 		return {
@@ -102,7 +128,7 @@ function changeArea(area){
 			backgroundColor:getRandomColor(),
 			fill: true}		
 	});
-	
+				
 	document.getElementById('chart').innerHTML = '';
 	
 	document.getElementById('chart').innerHTML = '<canvas id="myChart" width="1200" height="600"></canvas>';
@@ -146,10 +172,5 @@ function changeRegion(region){
 	}
 	
 	changeArea(areas[0]);
-}
-
-function changeMetric(metric){
-	document.getElementById('metricTitle').innerText =`Monthly Breakdown - ${metric} Average`;
-	changeArea();
 }
 
