@@ -39,16 +39,18 @@ a {
 
 table.blueTable {
   border: 1px solid #1C6EA4;
-  width: 100%;
+  width: 50%;
   text-align: left;
   border-collapse: collapse;
 }
 table.blueTable td, table.blueTable th {
   border: 1px solid #AAAAAA;
   padding: 3px 2px;
+  width: 10%
 }
 table.blueTable tbody td {
   font-size: 12px;
+  width: 10%
 }
 table.blueTable thead {
   background: #1C6EA4;
@@ -69,4 +71,8 @@ table.blueTable thead th:first-child {
 
 table.blueTable tfoot td {
   font-size: 14px;
+}
+
+.selectedRow{
+	background: yellow;
 }

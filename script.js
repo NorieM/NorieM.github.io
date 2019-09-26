@@ -1,14 +1,16 @@
 // month labels
 const months =[...Array(12).keys()].map(mth => new Date(2019,mth, 1).toLocaleString('en-UK', {month:'long'})) ;
 
+let myChart;
+
 function createTable(tableData) {
   var table = document.createElement('table');
   table.setAttribute('class', 'blueTable');
-	
+  table.setAttribute('id', 'siteTable');
   var tableHeader = document.createElement('thead');
 	
   var tableHeaderRow = document.createElement('tr');
-  
+  	
   months.unshift('Site');
   	
   months.forEach(month=>{
@@ -27,6 +29,7 @@ function createTable(tableData) {
   tableData.forEach(function(rowData) {
     var row = document.createElement('tr');
 
+	row.setAttribute('class', 'selectedRow');
     rowData.forEach(function(cellData) {
       var cell = document.createElement('td');
       cell.appendChild(document.createTextNode(cellData));
@@ -96,7 +99,21 @@ function Upload() {
         alert("Please upload a valid CSV file.");
     }
 }
+
+function handleChartClick(evt)
+{
+	const activeElement = myChart.getElementAtEvent(evt)
+	if (activeElement.length){
+		const siteIndex = activeElement[0]._datasetIndex;	
+		let siteTable = document.getElementById('siteTable');
 		
+		for(let idx=1;idx< siteTable.rows.length;idx++){
+			siteIndex === idx-1? siteTable.rows[idx].setAttribute('class', 'selectedRow'): siteTable.rows[idx].removeAttribute('class');
+		};
+		
+	}
+	
+}
 
 function changeArea(area){
 	
@@ -128,14 +145,15 @@ function changeArea(area){
 			backgroundColor:getRandomColor(),
 			fill: true}		
 	});
-				
+	
+	// reset chart area
 	document.getElementById('chart').innerHTML = '';
 	
 	document.getElementById('chart').innerHTML = '<canvas id="myChart" width="1200" height="600"></canvas>';
 	
 	const ctx = document.getElementById('myChart');
 	
-	let myChart = new Chart(ctx, {
+	myChart = new Chart(ctx, {
 	  type: 'bar',
 	  data: {
 		options:{
@@ -151,6 +169,9 @@ function changeArea(area){
 		},
 	    labels: months,
 	    datasets: areaList
+	  },
+	  options:{
+	  	onClick: handleChartClick
 	  }
 	});
 }
