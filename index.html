@@ -16,21 +16,26 @@
  	  <form>
 	  	<select id="regionSelect" onchange="changeRegion(this.value)">
 		</select>
-		<br>
-		<br>
-		<br>
-	    <select id="areaSelect" onchange="changeArea(this.value)">
+		<br>	
+		<select id="areaSelect" onchange="changeArea(this.value)">
 		</select>	
-		<br>			
+		<br>	
+		<select id="metricSelect" onchange="changeMetric(this.value)">
+		</select>	
+		<br>
+		<input type="file" id="fileUpload" class="noprint"/>	
+		<input type="button" id="upload" value="Upload" onclick="Upload()" class="noprint"/>		
+		
       </form>
-	  	  
+	  
 	  <div id="chart">
 	      <canvas id="myChart" width="1200" height="600"></canvas>
 	  </div>
-    </div>
+	  
+	  <div id="tableDiv" align="center">
+	  </div>
+	 </div>
 
-	<input type="file" id="fileUpload" class="noprint"/>
-	<input type="button" id="upload" value="Upload" onclick="Upload()" class="noprint"/>
 	<hr />
 	
     <script src="script.js"></script>

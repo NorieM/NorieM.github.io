@@ -2,6 +2,20 @@
 const months =[...Array(12).keys()].map(mth => new Date(2019,mth, 1).toLocaleString('en-UK', {month:'long'})) ;
 
 let myChart;
+let rows; // array for data from CSV file
+let data;
+
+function loadDoc() {
+  let xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {			
+	  data =  this.responseText;      
+    }
+  };
+  xhttp.open("GET", "https://testbucket-norie.s3.eu-west-2.amazonaws.com/Data.csv", true);
+  xhttp.send();
+  return data;
+}
 
 function createTable(tableData) {
   var table = document.createElement('table');
@@ -29,7 +43,6 @@ function createTable(tableData) {
   tableData.forEach(function(rowData) {
     var row = document.createElement('tr');
 
-	row.setAttribute('class', 'selectedRow');
     rowData.forEach(function(cellData) {
       var cell = document.createElement('td');
       cell.appendChild(document.createTextNode(cellData));
@@ -41,7 +54,12 @@ function createTable(tableData) {
 	
   table.appendChild(tableHeader);
   table.appendChild(tableBody);
-  document.body.appendChild(table);
+	
+  if(document.getElementById('tableDiv').childNodes[0])
+  {
+  	document.getElementById('tableDiv').childNodes[0].remove();
+  };
+  document.getElementById('tableDiv').appendChild(table);
 }
 
 // generate a random RGB colour
@@ -54,50 +72,46 @@ function getRandomColor() {
     return color;
 }
 
-let rows; // array for data from CSV file
+
 
 function Upload() {
 	
-    let fileUpload = document.getElementById("fileUpload");
+ 	loadDoc();
+        
+    rows =  data.split("\n").map(row => row.split(','));
 	
-    let regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+	let header = rows[0];
 	
-    if (regex.test(fileUpload.value.toLowerCase())) {
-        if (typeof (FileReader) != "undefined") {
-            let reader = new FileReader();
+	let metricSelect = document.getElementById('metricSelect');
 			
-            reader.onload = function (e) {            
-            rows = e.target.result.split("\n").map(row => row.split(','));
-				
-			let regions = Array.from(new Set(rows.map(row =>row[0])));
-				
-			regions.shift();
-				
-			let regionSelect = document.getElementById('regionSelect');
+	metricSelect.options.length =0;
+	
+	for(let idx=4; idx < header.length; idx++){
+		let el = document.createElement('option');
+		el.textContent = header[idx];
+		el.value = header[idx];
+		metricSelect.appendChild(el);			
+	};	
+	
+	let regions = Array.from(new Set(rows.map(row =>row[0])));
+		
+	regions.shift();
+		
+	let regionSelect = document.getElementById('regionSelect');
 
-			regionSelect.options.length = 0;
-				
-			for(let idx=0; idx < regions.length; idx++){
-				let el = document.createElement('option');
-				el.textContent = regions[idx];
-				el.value = regions[idx];
-				regionSelect.appendChild(el);			
-				};																	
+	regionSelect.options.length = 0;
+		
+	for(let idx=0; idx < regions.length; idx++){
+		let el = document.createElement('option');
+		el.textContent = regions[idx];
+		el.value = regions[idx];
+		regionSelect.appendChild(el);			
+		};																	
+	
+	changeRegion(regions[0]);
+	
+	document.getElementById('regionTitle').innerText = regions[0];
 			
-			changeRegion(regions[0]);
-			
-			document.getElementById('regionTitle').innerText = regions[0];
-			
-            }
-							
-            reader.readAsText(fileUpload.files[0]);
-			
-        } else {
-            alert("This browser does not support HTML5.");
-        }
-    } else {
-        alert("Please upload a valid CSV file.");
-    }
 }
 
 function handleChartClick(evt)
@@ -128,6 +142,8 @@ function changeArea(area){
 			let data = rows.filter(site=>site[1]===area && site[2] === sites[idx]);
 			
 			let siteData = [sites[idx]];			
+			
+			// siteData.push(data[month][document.getElementById('metricSelect').selectedIndex+4]);
 			
 			for(month=0;month<data.length; month++){			
 				siteData.push(data[month][4]);
