@@ -5,17 +5,20 @@ let myChart;
 let rows; // array for data from CSV file
 let data;
 
-function loadDoc() {
-  let xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {			
-	  data =  this.responseText;      
-    }
-  };
-  xhttp.open("GET", "https://testbucket-norie.s3.eu-west-2.amazonaws.com/Data.csv", true);
-  xhttp.send();
-  return data;
+// get data
+let xhttp = new XMLHttpRequest();
+
+xhttp.open("GET", "https://testbucket-norie.s3.eu-west-2.amazonaws.com/Data.csv", true);
+
+xhttp.onload = function() {
+if (this.readyState == 4 && this.status == 200) {			
+  data =  this.responseText;   
+  Upload()
 }
+};
+
+xhttp.send();
+
 
 function createTable(tableData) {
   var table = document.createElement('table');
@@ -73,12 +76,11 @@ function getRandomColor() {
 }
 
 
-
 function Upload() {
 	
- 	loadDoc();
-        
-    rows =  data.split("\n").map(row => row.split(','));
+	//loadDoc();	
+	
+    rows =  data.split("\n").map(row => row.split(','));	
 	
 	let header = rows[0];
 	
