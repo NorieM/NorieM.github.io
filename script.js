@@ -133,6 +133,7 @@ function handleChartClick(evt)
 
 function changeArea(area){
 	
+	area 
 	const areaData = rows.filter(site=>site[1]===area);
 	
 	const sites = Array.from(new Set(areaData.map(site =>site[2])));
@@ -148,7 +149,8 @@ function changeArea(area){
 			// siteData.push(data[month][document.getElementById('metricSelect').selectedIndex+4]);
 			
 			for(month=0;month<data.length; month++){			
-				siteData.push(data[month][4]);
+				//siteData.push(data[month][4]);
+				siteData.push(data[month][document.getElementById('metricSelect').selectedIndex+4]);
 			}
 			allData.push(siteData);
 			
@@ -194,6 +196,9 @@ function changeArea(area){
 	});
 }
 
+function changeMetric(){
+	changeArea(document.getElementById('areaSelect').value);
+}
 function changeRegion(region){
 					
 	const areas = Array.from(new Set(rows.filter(row=> row[0]===region).map(row=>row[1])));
