@@ -7,14 +7,25 @@
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-	
-    <div class="wrapper">
-      <h1>Canal and River Trust</h1>
-	  <h1 id="regionTitle">London and South East</h1>
-      <h2>Monthly breakdown - Weekday Average</h2>
-  
- 	  <form>
-	  	<select id="regionSelect" onchange="changeRegion(this.value)">
+
+
+	<div class="wrapper">
+		
+		<h1>Canal and River Trust</h1>
+		<h1 id="regionTitle">Region</h1>
+		<h1 id="areaTitle">Area</h1>
+		<h2 id="metric">Monthly breakdown - Weekday Average</h2>
+		
+		<div id="chart">
+			<canvas id="myChart" width="1200" height="600"></canvas>
+		</div>
+		
+		<div id="tableDiv">
+		</div>
+	</div>
+
+	<div class="sidebar">
+		<select id="regionSelect" onchange="changeRegion(this.value)">
 		</select>
 		<br>	
 		<select id="areaSelect" onchange="changeArea(this.value)">
@@ -22,16 +33,9 @@
 		<br>	
 		<select id="metricSelect" onchange="changeMetric(this.value)">
 		</select>	
-		
-	  </form>
-	  
-	  <div id="chart">
-	      <canvas id="myChart" width="1200" height="600"></canvas>
-	  </div>
-	  
-	  <div id="tableDiv" align="center">
-	  </div>
-	 </div>
+	</div>
+
+
 
 	<hr />
 	

@@ -194,9 +194,14 @@ function changeArea(area){
 	  	onClick: handleChartClick
 	  }
 	});
+
+	const region = document.getElementById('regionSelect').value;
+
+	document.getElementById('areaTitle').innerText = area;
 }
 
-function changeMetric(){
+function changeMetric(metric){
+	document.getElementById('metric').innerText = `Monthly breakdown - ${metric} Average`;
 	changeArea(document.getElementById('areaSelect').value);
 }
 function changeRegion(region){
@@ -215,6 +220,9 @@ function changeRegion(region){
 		areaSelect.appendChild(el);
 	}
 	
+	
+	document.getElementById('regionTitle').innerText = region;
+
 	changeArea(areas[0]);
 }
 
