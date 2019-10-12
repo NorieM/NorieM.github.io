@@ -169,7 +169,7 @@ function changeArea(area){
 	// reset chart area
 	document.getElementById('chart').innerHTML = '';
 	
-	document.getElementById('chart').innerHTML = '<canvas id="myChart" width="1200" height="600"></canvas>';
+	document.getElementById('chart').innerHTML = '<canvas id="myChart" width="1200" height="300"></canvas>';
 	
 	const ctx = document.getElementById('myChart');
 	
